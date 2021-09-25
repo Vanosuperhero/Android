@@ -10,12 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.test.databinding.ActivityMainBinding
+
 import android.widget.Button
 
 
  class MainActivity : AppCompatActivity() {
 
-     lateinit var textV: TextView
+//     lateinit var textV: TextView
      lateinit var myViewModel: MyViewModel
 
 //     private val liveData: MyViewModel by lazy {

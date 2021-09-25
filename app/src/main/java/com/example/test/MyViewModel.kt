@@ -33,14 +33,21 @@ class MyViewModel() :ViewModel(){
     val property: LiveData<MyProperty>
     get() = _property
 
-//    val URL = "https://developerslife.ru/random?json=true"
+
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+//    private val _listOfgifs = MutableLiveData<MutableList<MyProperty>>()
+//    val listOfgifs: LiveData<MutableList<MyProperty>>
+//    get() = _listOfgifs
 
+
+    val listofgif = mutableListOf<MyProperty>()
+    var index = -1
 
     init {
         GetMarsRealEstateProperties()
+//        _property.value = listofgif[index]
 //        getImages(application,liveData)
 //        timer()
     }
@@ -50,12 +57,30 @@ class MyViewModel() :ViewModel(){
             try {
                 val listResult = getPropertiesDeferred.await()
 //                if(listResult.size>0) {
-                    _property.value = listResult
-
+//                    _property.value = listResult
 //                }
+//                  Здесь нужно класть гиф в список
+                listofgif.add(listResult)
+                index++
+                _property.value = listofgif[index]
+
                 }catch (e:Exception) {
                 _status.value = "Failure: ${e.message}"
             }
+        }
+    }
+
+    private fun Next(){
+//        Здесь нужно вытаскивать гиф из списка и класть в лайвдату
+        if (index == listofgif.lastIndex){ GetMarsRealEstateProperties()}
+//        index++
+//        _property.value = listofgif[index]
+    }
+
+    private fun Prev(){
+        if (index > 0){
+        index--
+        _property.value = listofgif[index]
         }
     }
 
