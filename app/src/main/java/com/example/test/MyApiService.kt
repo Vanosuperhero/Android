@@ -9,7 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 
-private const val BASE_URL = "https://mars.udacity.com/"
+private const val BASE_URL = "https://developerslife.ru/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -21,9 +21,9 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface MyApiService{
-    @GET ("realestate")
+    @GET ("random?json=true")
     fun getProperties():
-            Call<List<MyProperty>>
+            Call<MyProperty>
 }
 
 object MyApi{

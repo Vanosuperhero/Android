@@ -49,9 +49,10 @@ class MyViewModel() :ViewModel(){
            var getPropertiesDeferred = MyApi.retrofitService.getProperties()
             try {
                 val listResult = getPropertiesDeferred.await()
-                if(listResult.size>0) {
-                    _property.value = listResult[0]
-                }
+//                if(listResult.size>0) {
+                    _property.value = listResult
+
+//                }
                 }catch (e:Exception) {
                 _status.value = "Failure: ${e.message}"
             }
