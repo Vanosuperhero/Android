@@ -36,7 +36,6 @@ import android.widget.Button
          binding.liveData =  myViewModel
 
 
-
     }
 
 //    override fun onStart() {

@@ -5,6 +5,7 @@ import android.media.Image
 import android.os.CountDownTimer
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -69,15 +70,17 @@ class MyViewModel() :ViewModel(){
             }
         }
     }
-
-    private fun Next(){
+//    @BindingAdapter("next")
+    fun Next(){
 //        Здесь нужно вытаскивать гиф из списка и класть в лайвдату
-        if (index == listofgif.lastIndex){ GetMarsRealEstateProperties()}
-//        index++
-//        _property.value = listofgif[index]
+        if (index == listofgif.lastIndex) { GetMarsRealEstateProperties()}
+        else{index++
+        _property.value = listofgif[index]}
     }
 
-    private fun Prev(){
+
+//    @BindingAdapter("prev")
+    fun Prev(){
         if (index > 0){
         index--
         _property.value = listofgif[index]

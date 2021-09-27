@@ -13,8 +13,24 @@ fun bindImage(imgView: ImageView, imgUrl: String?){
         Glide.with(imgView.context)
             .load(imgUrl)
 //            .apply(RequestOptions()
-                .placeholder(R.drawable.loading_img)
+                .placeholder(R.drawable.loading_animation)
                 .error(R.drawable.ic_broken_image)
             .into(imgView)
     }
 }
+
+//@BindingAdapter("app:next")
+//fun Next(index, listofgif, GetMarsRealEstateProperties){
+////        Здесь нужно вытаскивать гиф из списка и класть в лайвдату
+//    if (index == listofgif.lastIndex){ GetMarsRealEstateProperties()}
+////        index++
+////        _property.value = listofgif[index]
+//}
+//@BindingAdapter("app:prev")
+//fun Prev(){
+//    if (index > 0){
+//        index--
+//        _property.value = listofgif[index]
+//    }
+//}
+
