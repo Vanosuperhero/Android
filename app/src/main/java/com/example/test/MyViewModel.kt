@@ -23,11 +23,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.await
 import java.io.File
-
+enum class MyApiStatus{LOADING,ERROR,DONE}
 class MyViewModel() :ViewModel(){
 
-    private val _status = MutableLiveData<String>()
-    val status : LiveData<String>
+    private val _status = MutableLiveData<MyApiStatus>()
+    val status : LiveData<MyApiStatus>
     get() = _status
 
     private val _property = MutableLiveData<MyProperty>()
@@ -47,16 +47,18 @@ class MyViewModel() :ViewModel(){
     var index = -1
 
     init {
-        GetMarsRealEstateProperties()
+        GetDataProperties()
 //        _property.value = listofgif[index]
 //        getImages(application,liveData)
 //        timer()
     }
-    private fun GetMarsRealEstateProperties(){
+    private fun GetDataProperties(){
         coroutineScope.launch {
            var getPropertiesDeferred = MyApi.retrofitService.getProperties()
             try {
+                _status.value = MyApiStatus.LOADING
                 val listResult = getPropertiesDeferred.await()
+                _status.value = MyApiStatus.DONE
 //                if(listResult.size>0) {
 //                    _property.value = listResult
 //                }
@@ -66,14 +68,16 @@ class MyViewModel() :ViewModel(){
                 _property.value = listofgif[index]
 
                 }catch (e:Exception) {
-                _status.value = "Failure: ${e.message}"
+                _status.value = MyApiStatus.ERROR
+//                _property.value =
+               // _status.value = "Failure: ${e.message}"
             }
         }
     }
 //    @BindingAdapter("next")
     fun Next(){
 //        Здесь нужно вытаскивать гиф из списка и класть в лайвдату
-        if (index == listofgif.lastIndex) { GetMarsRealEstateProperties()}
+        if (index == listofgif.lastIndex) {GetDataProperties()}
         else{index++
         _property.value = listofgif[index]}
     }

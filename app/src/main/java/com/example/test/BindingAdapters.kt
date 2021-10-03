@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -19,6 +20,23 @@ fun bindImage(imgView: ImageView, imgUrl: String?){
     }
 }
 
+@BindingAdapter("myApiStatus")
+fun bindStatus(statusImageView: ImageView, status: MyApiStatus?){
+    when(status){
+        MyApiStatus.LOADING -> {
+//            statusImageView.visibility = View.VISIBLE
+//            statusImageView.setImageResource(R.drawable.loading_animation)
+            statusImageView.visibility = View.GONE
+        }
+        MyApiStatus.ERROR -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        MyApiStatus.DONE -> {
+            statusImageView.visibility = View.GONE
+        }
+    }
+}
 //@BindingAdapter("app:next")
 //fun Next(index, listofgif, GetMarsRealEstateProperties){
 ////        Здесь нужно вытаскивать гиф из списка и класть в лайвдату
