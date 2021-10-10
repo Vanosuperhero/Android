@@ -1,4 +1,4 @@
- package com.example.test
+package com.example.test
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,12 +16,9 @@ import android.widget.Button
 
  class MainActivity : AppCompatActivity() {
 
-//     lateinit var textV: TextView
+
      lateinit var myViewModel: MyViewModel
 
-//     private val liveData: MyViewModel by lazy {
-//         ViewModelProvider(this).get(MyViewModel::class.java)
-//     }
 
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
@@ -38,12 +35,6 @@ import android.widget.Button
 
     }
 
-//    override fun onStart() {
-//        textV = findViewById(R.id.textV)
-//        super.onStart()
-//        myViewModel.liveData.observe(this, Observer {
-//            textV.text = it
-//        })
-//    }
+
 
 }

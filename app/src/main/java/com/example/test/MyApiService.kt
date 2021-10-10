@@ -8,6 +8,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 private const val BASE_URL = "https://developerslife.ru/"
 
@@ -20,10 +22,15 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
+//enum class MyApiFilter(val value: String) {SHOW_R("rent"),SHOW_BUY("buy"),SHOW_ALL("all") }
+
 interface MyApiService{
-    @GET ("random?json=true")
+    @GET("latest/0?json=true")
+//    {page}
+//    ,@Path("page") type: Int
+    //@Path("id") type: String
     fun getProperties():
-            Call<MyProperty>
+            Call<MyResult>
 }
 
 object MyApi{

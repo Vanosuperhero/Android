@@ -30,6 +30,10 @@ class MyViewModel() :ViewModel(){
     val status : LiveData<MyApiStatus>
     get() = _status
 
+    private val _truestatus = MutableLiveData<String>()
+    val truestatus : LiveData<String>
+        get() = _truestatus
+
     private val _property = MutableLiveData<MyProperty>()
     val property: LiveData<MyProperty>
     get() = _property
@@ -38,19 +42,14 @@ class MyViewModel() :ViewModel(){
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-//    private val _listOfgifs = MutableLiveData<MutableList<MyProperty>>()
-//    val listOfgifs: LiveData<MutableList<MyProperty>>
-//    get() = _listOfgifs
 
 
     val listofgif = mutableListOf<MyProperty>()
-    var index = -1
+    var index = 0
 
     init {
         GetDataProperties()
-//        _property.value = listofgif[index]
-//        getImages(application,liveData)
-//        timer()
+
     }
     private fun GetDataProperties(){
         coroutineScope.launch {
@@ -62,29 +61,39 @@ class MyViewModel() :ViewModel(){
 //                if(listResult.size>0) {
 //                    _property.value = listResult
 //                }
-//                  Здесь нужно класть гиф в список
-                listofgif.add(listResult)
-                index++
+//                  кладем гиф в список
+//                listofgif.add(listResult)
+//                index++
+//                _property.value = listofgif[index]
+
+
+                    //если пришел список
+                for (i in listResult.result){
+                    listofgif.add(i)
+                }
                 _property.value = listofgif[index]
 
                 }catch (e:Exception) {
                 _status.value = MyApiStatus.ERROR
 //                _property.value =
-               // _status.value = "Failure: ${e.message}"
+                _truestatus.value = "Failure: ${e.message}"
             }
         }
     }
-//    @BindingAdapter("next")
-    fun Next(){
-//        Здесь нужно вытаскивать гиф из списка и класть в лайвдату
-        if (index == listofgif.lastIndex) {GetDataProperties()}
-        else{index++
+
+    fun next(){
+//      вытаскиваем гиф из списка и кладем в лайвдату
+        if (index == listofgif.lastIndex) {
+            index++
+            GetDataProperties()
+
+        }
+        else { index++
         _property.value = listofgif[index]}
     }
 
 
-//    @BindingAdapter("prev")
-    fun Prev(){
+    fun prev(){
         if (index > 0){
         index--
         _property.value = listofgif[index]
@@ -95,27 +104,5 @@ class MyViewModel() :ViewModel(){
         super.onCleared()
         viewModelJob.cancel()
     }
-
-
-//    fun getImages(application: Application,liveData: MutableLiveData<ImageView>){
-//        Glide.with(application)
-//            .load(URL)
-////            .apply(
-////                RequestOptions()
-////                    .placeholder(R.drawable.loading_animation)
-////                    .error(R.drawable.ic_broken_image))
-//            .into(liveData.value)
-//    }
-//    fun timer(){
-//        object : CountDownTimer(5000, 1000) {
-//
-//            override fun onFinish() {
-//                Toast.makeText(getApplication(), "Fuck $text", Toast.LENGTH_SHORT).show()
-//            }
-//            override fun onTick(p0: Long) {
-//                liveData.value = (p0 / 1000).toString()
-//            }
-//        }.start()
-//    }
 
 }
