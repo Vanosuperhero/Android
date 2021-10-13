@@ -22,19 +22,29 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-//enum class MyApiFilter(val value: String) {SHOW_R("rent"),SHOW_BUY("buy"),SHOW_ALL("all") }
 
 interface MyApiService{
-    @GET("latest/0?json=true")
-//    {page}
-//    ,@Path("page") type: Int
-    //@Path("id") type: String
-    fun getProperties():
+    @GET("{filter}/{page}?json=true")
+    fun getProperties(@Path("filter") filter: String, @Path("page") page: Int):
             Call<MyResult>
+//    fun getRandom(@Path("filter",) filter: String, @Path("page") page: String):
+//            Call<MyProperty>
+}
+
+interface MyApiRandomService{
+    @GET("random?json=true")
+    fun getProperties():
+            Call<MyProperty>
 }
 
 object MyApi{
     val retrofitService: MyApiService by lazy {
         retrofit.create(MyApiService::class.java)
+    }
+}
+
+object MyApiRandom{
+    val retrofitService: MyApiRandomService by lazy {
+        retrofit.create(MyApiRandomService::class.java)
     }
 }

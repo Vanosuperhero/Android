@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TEST</string>
+    <string name="show_top">Top</string>
+    <string name="show_latest">Latest</string>
+    <string name="show_hot">Hot</string>
+    <string name="show_random">Random</string>
+    <string name="prev">Prev</string>
+    <string name="next">Next</string>
+    <string name="image">For gifs from developerslife.ru</string>
 </resources>

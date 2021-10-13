@@ -24,15 +24,20 @@ import retrofit2.Response
 import retrofit2.await
 import java.io.File
 enum class MyApiStatus{LOADING,ERROR,DONE}
+enum class MyApiFilter(val value:String){LATEST("latest"),TOP("top"),HOT("hot"),RANDOM("")}
 class MyViewModel() :ViewModel(){
 
     private val _status = MutableLiveData<MyApiStatus>()
     val status : LiveData<MyApiStatus>
     get() = _status
 
-    private val _truestatus = MutableLiveData<String>()
-    val truestatus : LiveData<String>
-        get() = _truestatus
+    private val _errors = MutableLiveData<String>()
+    val errors : LiveData<String>
+        get() = _errors
+
+    private val _currentFilter = MutableLiveData<MyApiFilter>()
+    val currentFilter : LiveData<MyApiFilter>
+        get() = _currentFilter
 
     private val _property = MutableLiveData<MyProperty>()
     val property: LiveData<MyProperty>
@@ -40,20 +45,22 @@ class MyViewModel() :ViewModel(){
 
 
     private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(viewModelJob + Main)
 
 
 
     val listofgif = mutableListOf<MyProperty>()
     var index = 0
-
+    var page = 0
     init {
-        GetDataProperties()
+        _currentFilter.value = MyApiFilter.LATEST
+        getDataProperties(MyApiFilter.LATEST, page)
 
     }
-    private fun GetDataProperties(){
+
+    private fun getDataProperties(filter: MyApiFilter, page: Int){
         coroutineScope.launch {
-           var getPropertiesDeferred = MyApi.retrofitService.getProperties()
+           val getPropertiesDeferred = MyApi.retrofitService.getProperties(filter.value, page)
             try {
                 _status.value = MyApiStatus.LOADING
                 val listResult = getPropertiesDeferred.await()
@@ -61,12 +68,6 @@ class MyViewModel() :ViewModel(){
 //                if(listResult.size>0) {
 //                    _property.value = listResult
 //                }
-//                  кладем гиф в список
-//                listofgif.add(listResult)
-//                index++
-//                _property.value = listofgif[index]
-
-
                     //если пришел список
                 for (i in listResult.result){
                     listofgif.add(i)
@@ -74,19 +75,44 @@ class MyViewModel() :ViewModel(){
                 _property.value = listofgif[index]
 
                 }catch (e:Exception) {
+                _property.value = MyProperty("","")
                 _status.value = MyApiStatus.ERROR
-//                _property.value =
-                _truestatus.value = "Failure: ${e.message}"
+                _errors.value = "Failure: ${e.message}"
             }
         }
     }
+
+    private fun getDataRandom(){
+        coroutineScope.launch {
+            val getRandomDeferred = MyApiRandom.retrofitService.getProperties()
+            try {
+                _status.value = MyApiStatus.LOADING
+                val listResult = getRandomDeferred.await()
+                _status.value = MyApiStatus.DONE
+//                  кладем гиф в список
+                listofgif.add(listResult)
+                _property.value = listofgif[index]
+
+
+            }catch (e:Exception) {
+                _property.value = MyProperty("","")
+                _status.value = MyApiStatus.ERROR
+                _errors.value = "Failure: ${e.message}"
+            }
+        }
+    }
+
+
+
 
     fun next(){
 //      вытаскиваем гиф из списка и кладем в лайвдату
         if (index == listofgif.lastIndex) {
             index++
-            GetDataProperties()
-
+            page++
+            _errors.value = ""
+            if (currentFilter.value == MyApiFilter.RANDOM) {getDataRandom()}
+            else {getDataProperties(currentFilter.value?:MyApiFilter.LATEST, page)}
         }
         else { index++
         _property.value = listofgif[index]}
@@ -100,6 +126,16 @@ class MyViewModel() :ViewModel(){
         }
     }
 
+    fun updateFilter(filter: MyApiFilter){
+        listofgif.clear()
+        _errors.value = ""
+        _currentFilter.value = filter
+        index = 0
+        page = 0
+        if (filter == MyApiFilter.RANDOM) {getDataRandom()}
+        else {getDataProperties(filter,0)}
+
+    }
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

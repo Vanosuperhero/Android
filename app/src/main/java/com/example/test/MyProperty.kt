@@ -9,5 +9,4 @@ data class MyProperty (
 
 data class MyResult (
     val result: List<MyProperty>
-
 )
