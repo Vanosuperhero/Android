@@ -53,8 +53,7 @@ class MyViewModel() :ViewModel(){
     var index = 0
     var page = 0
     init {
-        _currentFilter.value = MyApiFilter.LATEST
-        getDataProperties(MyApiFilter.LATEST, page)
+        getDataRandom()
 
     }
 

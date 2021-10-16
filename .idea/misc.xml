@@ -4,11 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndStu/TEST/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.18125" />
+        <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/custom_btn_bckgrnd.xml" value="0.32083333333333336" />
+        <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/ic_baseline_arrow_circle_up_24.xml" value="0.18020833333333333" />
+        <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.3158974358974359" />
         <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/ic_broken_image.xml" value="0.12222222222222222" />
         <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/ic_connection_error.xml" value="0.12314814814814815" />
         <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18125" />
         <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/loading_img.xml" value="0.12314814814814815" />
-        <entry key="..\:/AndStu/TEST/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/outline_arrow_circle_right_20.xml" value="0.32083333333333336" />
+        <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/outline_arrow_circle_right_24.xml" value="0.1" />
+        <entry key="..\:/AndStu/TEST/app/src/main/res/drawable/outline_undo_24.xml" value="0.1" />
+        <entry key="..\:/AndStu/TEST/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
         <entry key="..\:/AndStu/TEST/app/src/main/res/menu/overflow_menu.xml" value="0.3046875" />
       </map>
     </option>

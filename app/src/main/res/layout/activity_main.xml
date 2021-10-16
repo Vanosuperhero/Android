@@ -30,23 +30,14 @@
             android:id="@+id/ImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/image"
             app:imageUrl="@{liveData.property.imgSrcUrl}"
-            app:myApiStatus="@{liveData.status}"
             app:layout_constraintBottom_toTopOf="@+id/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/image" />
+            app:myApiStatus="@{liveData.status}" />
 
-<!--        <ImageView-->
-<!--            android:id="@+id/NoInternet"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/description"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:myApiStatus="@{liveData.status}" />-->
         <TextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
@@ -61,27 +52,35 @@
 
         <Button
             android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="76dp"
-            android:onClick="@{() -> liveData.next()}"
+            android:background="@drawable/custom_btn_bckgrnd"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="100dp"
+            android:onClick="@{() -> liveData.next()"
+            app:icon="@drawable/ic_baseline_arrow_forward_24"
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ImageView"
-            />
+            app:layout_constraintVertical_bias="0.496" />
 
         <Button
             android:id="@+id/prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="100dp"
+            android:background="@drawable/custom_btn_bckgrnd"
             android:onClick="@{() -> liveData.prev()}"
+            app:icon="@drawable/outline_undo_24"
             android:text="@string/prev"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ImageView"
-             />
+            app:layout_constraintVertical_bias="0.496" />
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
