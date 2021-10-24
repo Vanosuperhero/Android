@@ -1,5 +1,6 @@
 package com.example.test
 
+
 import android.app.Application
 import android.media.Image
 import android.os.CountDownTimer
@@ -23,6 +24,20 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.await
 import java.io.File
+
+import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
+import android.net.NetworkRequest
+import android.util.Log
+
+import kotlinx.coroutines.withContext
+
+val TAG = "C-Manager"
+
+
 enum class MyApiStatus{LOADING,ERROR,DONE}
 enum class MyApiFilter(val value:String){LATEST("latest"),TOP("top"),HOT("hot"),RANDOM("")}
 class MyViewModel() :ViewModel(){
@@ -53,6 +68,7 @@ class MyViewModel() :ViewModel(){
     var index = 0
     var page = 0
     init {
+        _currentFilter.value = MyApiFilter.RANDOM
         getDataRandom()
 
     }
@@ -74,9 +90,9 @@ class MyViewModel() :ViewModel(){
                 _property.value = listofgif[index]
 
                 }catch (e:Exception) {
-                _property.value = MyProperty("","")
+                _property.value = MyProperty("Ошибка: ${e.message}","")
                 _status.value = MyApiStatus.ERROR
-                _errors.value = "Failure: ${e.message}"
+//                _errors.value = "Failure: ${e.message}"
             }
         }
     }
@@ -85,18 +101,19 @@ class MyViewModel() :ViewModel(){
         coroutineScope.launch {
             val getRandomDeferred = MyApiRandom.retrofitService.getProperties()
             try {
-                _status.value = MyApiStatus.LOADING
+//                _status.value = MyApiStatus.LOADING
                 val listResult = getRandomDeferred.await()
-                _status.value = MyApiStatus.DONE
+//                _status.value = MyApiStatus.DONE
 //                  кладем гиф в список
                 listofgif.add(listResult)
                 _property.value = listofgif[index]
 
 
             }catch (e:Exception) {
-                _property.value = MyProperty("","")
-                _status.value = MyApiStatus.ERROR
-                _errors.value = "Failure: ${e.message}"
+                _property.value = MyProperty("Ошибка: ${e.message}","")
+
+//                _status.value = MyApiStatus.ERROR
+//                _errors.value = "Failure: ${e.localizedMessage}"
             }
         }
     }
@@ -110,11 +127,21 @@ class MyViewModel() :ViewModel(){
             index++
             page++
             _errors.value = ""
-            if (currentFilter.value == MyApiFilter.RANDOM) {getDataRandom()}
+            if (currentFilter.value == MyApiFilter.RANDOM ){getDataRandom()}
             else {getDataProperties(currentFilter.value?:MyApiFilter.LATEST, page)}
         }
-        else { index++
-        _property.value = listofgif[index]}
+        else {
+            index++
+            try {
+                _property.value = listofgif[index]
+            }catch (e:Exception){
+                _property.value = MyProperty("Ошибка: ${e.message}","")
+                index = 0
+                listofgif.clear()
+                if (currentFilter.value == MyApiFilter.RANDOM ){getDataRandom()}
+                else {getDataProperties(currentFilter.value?:MyApiFilter.LATEST, page)}
+            }
+        }
     }
 
 
@@ -141,3 +168,65 @@ class MyViewModel() :ViewModel(){
     }
 
 }
+//class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
+//
+//
+//    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
+//    private val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+//    private val validNetworks: MutableSet<Network> = HashSet()
+//
+//    private fun checkValidNetworks() {
+//        postValue(validNetworks.size > 0)
+//    }
+//
+//    override fun onActive() {
+//        networkCallback = createNetworkCallback()
+//        val networkRequest = NetworkRequest.Builder()
+//            .addCapability(NET_CAPABILITY_INTERNET)
+//            .build()
+//        cm.registerNetworkCallback(networkRequest, networkCallback)
+//    }
+//
+//    override fun onInactive() {
+//        cm.unregisterNetworkCallback(networkCallback)
+//    }
+//
+//    private fun createNetworkCallback() = object : ConnectivityManager.NetworkCallback() {
+//
+//        /*
+//          Called when a network is detected. If that network has internet, save it in the Set.
+//          Source: https://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback#onAvailable(android.net.Network)
+//         */
+//        override fun onAvailable(network: Network) {
+//            Log.d(TAG, "onAvailable: ${network}")
+//            val networkCapabilities = cm.getNetworkCapabilities(network)
+//            val hasInternetCapability = networkCapabilities?.hasCapability(NET_CAPABILITY_INTERNET)
+//            Log.d(TAG, "onAvailable: ${network}, $hasInternetCapability")
+//            if (hasInternetCapability == true) {
+//                // check if this network actually has internet
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    val hasInternet = DoesNetworkHaveInternet.execute(network.socketFactory)
+//                    if(hasInternet){
+//                        withContext(Dispatchers.Main){
+//                            Log.d(TAG, "onAvailable: adding network. ${network}")
+//                            validNetworks.add(network)
+//                            checkValidNetworks()
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        /*
+//          If the callback was registered with registerNetworkCallback() it will be called for each network which no longer satisfies the criteria of the callback.
+//          Source: https://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback#onLost(android.net.Network)
+//         */
+//        override fun onLost(network: Network) {
+//            Log.d(TAG, "onLost: ${network}")
+//            validNetworks.remove(network)
+//            checkValidNetworks()
+//        }
+//
+//    }
+//
+//}

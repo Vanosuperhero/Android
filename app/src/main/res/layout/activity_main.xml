@@ -12,19 +12,34 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         tools:context=".MainActivity">
+
+        <!--        <TextView-->
+<!--            android:id="@+id/status"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@{liveData.errors}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.501"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.793" />-->
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="40dp"
             android:text="@{liveData.property.description}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.73" />
+            app:layout_constraintTop_toBottomOf="@+id/center"
+            app:layout_constraintVertical_bias="0.364" />
 
         <ImageView
             android:id="@+id/ImageView"
@@ -35,51 +50,65 @@
             app:layout_constraintBottom_toTopOf="@+id/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:myApiStatus="@{liveData.status}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{liveData.errors}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description"
-            app:layout_constraintVertical_bias="0.118" />
+<!--        <ImageView-->
+<!--            android:id="@+id/Status"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginBottom="220dp"-->
+<!--            android:contentDescription="@string/image"-->
+<!--            app:myApiStatus="@{liveData.status}"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            />-->
 
         <Button
             android:id="@+id/next"
-            android:background="@drawable/custom_btn_bckgrnd"
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginEnd="100dp"
-            android:onClick="@{() -> liveData.next()"
-            app:icon="@drawable/ic_baseline_arrow_forward_24"
+
+            android:layout_marginStart="28dp"
+            android:background="@drawable/custom_btn_bckgrnd"
+            android:onClick="@{() -> liveData.next()}"
             android:text="@string/next"
+            app:backgroundTint="#FFFFFF"
+            app:icon="@drawable/ic_baseline_arrow_forward_24"
+            app:iconTint="#4CAF50"
+
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ImageView"
-            app:layout_constraintVertical_bias="0.496" />
+            app:layout_constraintStart_toEndOf="@+id/center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
 
         <Button
             android:id="@+id/prev"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="100dp"
+            android:layout_marginEnd="28dp"
             android:background="@drawable/custom_btn_bckgrnd"
             android:onClick="@{() -> liveData.prev()}"
-            app:icon="@drawable/outline_undo_24"
             android:text="@string/prev"
+            app:backgroundTint="#FFFFFF"
+            app:icon="@drawable/outline_undo_24"
+            app:iconTint="#FFEB3B"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
+
+        <TextView
+            android:id="@+id/center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ImageView"
-            app:layout_constraintVertical_bias="0.496" />
-
-
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

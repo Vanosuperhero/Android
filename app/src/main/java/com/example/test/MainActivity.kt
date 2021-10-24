@@ -15,12 +15,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.test.databinding.ActivityMainBinding
 
 import android.widget.Button
+import android.widget.ImageView
 
 
- class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
 
      lateinit var myViewModel: MyViewModel
+
 
 
      override fun onCreate(savedInstanceState: Bundle?) {
